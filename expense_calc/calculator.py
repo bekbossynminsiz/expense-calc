@@ -28,18 +28,17 @@ def get_total_by_category(category):
     return total
 
 
+# category -> multiplier (below 1 = discount, above 1 = tax)
+CATEGORY_RULES = {
+    "food": 0.95,           # 5% discount
+    "health": 0.90,         # 10% discount
+    "entertainment": 1.20,  # 20% tax
+    "transport": 1.10,      # 10% tax
+}
+
+
 def apply_rule(amount, category):
-    # discount or tax depends on category
-    if category == "food":
-        return amount * 0.95      # 5% discount
-    elif category == "health":
-        return amount * 0.90      # 10% discount
-    elif category == "entertainment":
-        return amount * 1.20      # 20% tax
-    elif category == "transport":
-        return amount * 1.10      # 10% tax
-    else:
-        return amount
+    return amount * CATEGORY_RULES.get(category, 1.0)
 
 
 def get_total_with_rules():
