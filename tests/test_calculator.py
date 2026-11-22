@@ -1,4 +1,6 @@
 import pytest
+
+import main
 from expense_calc import calculator
 
 
@@ -41,3 +43,15 @@ def test_total_with_rules():
 ])
 def test_apply_rule_all_categories(category, expected):
     assert calculator.apply_rule(100, category) == pytest.approx(expected)
+
+def run_menu(monkeypatch, inputs):
+    answers = iter(inputs)
+    monkeypatch.setattr("builtins.input", lambda prompt="": next(answers))
+    main.main()
+
+
+def test_non_numeric_amount_does_not_crash(monkeypatch, capsys):
+    run_menu(monkeypatch, ["1", "abc", "0"])
+    output = capsys.readouterr().out
+    assert "Invalid amount" in output
+    assert calculator.get_total() == 0

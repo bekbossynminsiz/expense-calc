@@ -18,7 +18,11 @@ def main():
         choice = input("Choose an option: ")
 
         if choice == "1":
-            amount = float(input("Amount: "))
+            try:
+                amount = float(input("Amount: "))
+            except ValueError:
+                print("Invalid amount. Please enter a number.")
+                continue
             category = input("Category (food/health/entertainment/transport/other): ")
             description = input("Description: ")
             calculator.add_expense(amount, category, description)
