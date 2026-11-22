@@ -76,8 +76,15 @@ Linux-style venv that does not work on Windows.
 - Anything not verified by a command is labeled "assumption"
 
 ## Known issues (do not fix unless a task explicitly asks)
-- Non-numeric amount crashes `main.py` with `ValueError`
-- Negative and zero amounts are accepted
 - Category matching is case-sensitive (`Food` != `food`)
 - Money uses `float` (rounding errors such as 0.30000000000000004)
-- `mypy` reports a missing annotation for `expenses`; `ruff` reports import order in tests
+- `nan` is accepted as an amount (it passes the `amount <= 0` check)
+- `mypy` reports a missing annotation for `expenses`
+- Fixed: non-numeric amount crash (R-01, commit 0d0dc54) and zero/negative amounts (R-02, commit e4ffc9f)
+
+## Background agent tasks
+- Work only in an isolated branch/worktree named `agent/<task>`; commits are allowed on that branch only
+- Edit only the files listed in the task's allowlist; never edit `AGENTS.md`, `requirements.txt` or `docs/`
+- No merge, push, tag changes, dependency changes or network access
+- Deliver: change summary, diff, test log, ruff/mypy output, risk notes; a human reviews before any merge
+- Details: `docs/AUDIT_AND_RELEASE.md`, section 3
