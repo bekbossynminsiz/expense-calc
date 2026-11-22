@@ -4,6 +4,8 @@ expenses = []
 
 
 def add_expense(amount, category, description):
+    if amount <= 0:
+        raise ValueError("Amount must be greater than zero")
     expense = {
         "amount": amount,
         "category": category,

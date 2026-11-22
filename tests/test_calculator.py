@@ -55,3 +55,16 @@ def test_non_numeric_amount_does_not_crash(monkeypatch, capsys):
     output = capsys.readouterr().out
     assert "Invalid amount" in output
     assert calculator.get_total() == 0
+
+@pytest.mark.parametrize("bad_amount", [0, -1, -100.5])
+def test_add_expense_rejects_non_positive_amount(bad_amount):
+    with pytest.raises(ValueError):
+        calculator.add_expense(bad_amount, "food", "test")
+    assert calculator.get_total() == 0
+
+
+def test_main_negative_amount_is_not_saved(monkeypatch, capsys):
+    run_menu(monkeypatch, ["1", "-5", "food", "lunch", "0"])
+    output = capsys.readouterr().out
+    assert "Expense added." not in output
+    assert calculator.get_total() == 0

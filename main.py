@@ -25,8 +25,11 @@ def main():
                 continue
             category = input("Category (food/health/entertainment/transport/other): ")
             description = input("Description: ")
-            calculator.add_expense(amount, category, description)
-            print("Expense added.")
+            try:
+                calculator.add_expense(amount, category, description)
+                print("Expense added.")
+            except ValueError as error:
+                print("Error:", error)
         elif choice == "2":
             print("Total:", calculator.get_total())
         elif choice == "3":
